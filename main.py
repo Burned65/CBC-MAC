@@ -88,12 +88,13 @@ def verify_cbc_mac_ccm(y, key, nonce):
     y_0_to_y_n = y[0:-16]
     y_ = y[-16:]
     x = ccm_mode(y_0_to_y_n, key, nonce)
+    print(f"decrypted text is: {x.decode()}")
     t_0 = nonce << 64
     return convert_to_int([y_])[0] == t_0 ^ convert_to_int([cbc_mac(x, key)])[0]
 
 
 if __name__ == '__main__':
-    text = "test"
+    text = "this is a very long message"
     key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
     key = AES.generate_key(key)
     hash_value = cbc_mac(text.encode(), key)
